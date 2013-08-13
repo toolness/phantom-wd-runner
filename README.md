@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/toolness/phantom-wd-runner.png?branch=master)](https://travis-ci.org/toolness/phantom-wd-runner)
+
 This is a simple library that makes it easy to launch
 PhantomJS with its built-in WebDriver server, and deal with
 unexpected errors.
