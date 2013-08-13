@@ -41,6 +41,7 @@ describe("startServerAndPing()", function() {
     start(example('simple-server.js')).on('listening', function() {
       this.on('exit', function(code) {
         code.should.eql(0);
+        logfile().should.eql('');
         done();
       });
       this.kill();
