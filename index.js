@@ -1,12 +1,6 @@
 var pingUntilReady = require('./lib/ping-until-ready');
 
-function env(values) {
-  var envCopy = JSON.parse(JSON.stringify(process.env));
-  Object.keys(values).forEach(function(key) {
-    envCopy[key] = values[key];
-  });
-  return envCopy;
-}
+var runnerPath = __dirname + '/lib/server-runner.js';
 
 module.exports = function(options) {
   if (!options) options = {};
@@ -15,13 +9,9 @@ module.exports = function(options) {
   var port = (options.port || '4444').toString();
   var execPath = options.execPath || 'phantomjs';
   var statusUrl = 'http://localhost:' + port + '/status';
-  var runnerPath = __dirname + '/lib/phantom-runner.js';
-  var runner = require('child_process').fork(runnerPath, [], {
-    env: env({
-      PORT: port,
-      PHANTOMJS: execPath
-    })
-  });
+  var runner = require('child_process').fork(runnerPath, [
+    execPath, '--webdriver=' + port
+  ]);
   runner.on('exit', function(code) {
     if (code)
       runner.emit('error',
