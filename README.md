@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/toolness/phantom-wd-runner.png?branch=master)](https://travis-ci.org/toolness/phantom-wd-runner)
 
 This is a simple library that makes it easy to launch
-PhantomJS with its built-in WebDriver server, and deal with
+[PhantomJS][] with its built-in [WebDriver][] server, and deal with
 unexpected errors.
 
 ## Example
@@ -66,5 +66,7 @@ the server is buffered in memory!
 
 [BSD][].
 
+  [PhantomJS]: http://phantomjs.org/
+  [WebDriver]: https://github.com/detro/ghostdriver
   [child process]: http://nodejs.org/api/child_process.html
   [BSD]: http://opensource.org/licenses/BSD-2-Clause
