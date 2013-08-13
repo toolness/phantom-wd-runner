@@ -16,7 +16,10 @@ function startServerAndPing(options) {
     }
   });
   pingUntilReady(options.url, options.timeout, function(err) {
-    if (err) return runner.emit('error', err);
+    if (err) {
+      runner.kill();
+      return runner.emit('error', err);
+    }
     runner.emit('listening');
   });
 

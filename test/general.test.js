@@ -56,4 +56,14 @@ describe("startServerAndPing()", function() {
       done();
     });
   });
+
+  it("should raise error on timeout", function(done) {
+    start(example('timeout-server.js', {
+      timeout: 300
+    })).on('error', function(err) {
+      err.message.should.eql('timeout (300ms) exceeded when pinging ' +
+                             'http://localhost:' + TEST_PORT);
+      done();
+    });
+  });
 });
