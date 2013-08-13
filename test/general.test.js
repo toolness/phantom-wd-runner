@@ -37,11 +37,11 @@ describe("startServerAndPing()", function() {
       fs.unlinkSync(LOGFILE);
   });
 
-  it("should emit listening event", function(done) {
+  it("should emit listening event and exit on SIGTERM", function(done) {
     start(example('simple-server.js')).on('listening', function() {
       this.on('exit', function(code) {
         code.should.eql(0);
-        logfile().should.eql('');
+        logfile().should.match(/SIGTERM received/);
         done();
       });
       this.kill();
@@ -65,7 +65,7 @@ describe("startServerAndPing()", function() {
       cmdline: ['lolololol']
     }).on('error', function(err) {
       err.code.should.be.above(0);
-      logfile().should.match(/ 'lolololol' binary not found/);
+      logfile().should.match(/'lolololol' binary not found/);
       done();
     });
   });
@@ -83,7 +83,7 @@ describe("startServerAndPing()", function() {
   it("should kill process on parent disconnect", function(done) {
     start(example('timeout-server.js')).on('exit', function(code) {
       code.should.eql(0);
-      logfile().should.match(/parent process disconnected/);
+      logfile().should.match(/disconnect received/);
       done();
     }).disconnect();
   });
