@@ -28,7 +28,8 @@ Launch the PhantomJS WebDriver server.
   WebDriver server to start. Defaults to 15000.
 * `execPath` - Executable used to create the PhantomJS process. Defaults
   to `phantomjs`.
-* `port` - Port to serve the PhantomJS WebDriver server on.
+* `port` - Port to serve the PhantomJS WebDriver server on. Defaults to
+  4444.
 
 This function returns a [child process][] instance.
 
