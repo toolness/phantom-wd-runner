@@ -3,13 +3,17 @@ var RUNNER_PATH = __dirname + '/lib/server-runner.js';
 var pingUntilReady = require('./lib/ping-until-ready');
 
 function startServerAndPing(options) {
-  var runner = require('child_process').fork(RUNNER_PATH, options.cmdline);
+  var runner = require('child_process').fork(RUNNER_PATH, options.cmdline, {
+    silent: !!options.silent
+  });
 
   runner.on('exit', function(code) {
-    if (code)
-      runner.emit('error',
-                  new Error("'" + options.cmdline[0] +
-                            "' runner exited with code " + code));
+    if (code) {
+      var err = new Error("'" + options.cmdline[0] +
+                          "' runner exited with code " + code);
+      err.code = code;
+      runner.emit('error', err);
+    }
   });
   pingUntilReady(options.url, options.timeout, function(err) {
     if (err) return runner.emit('error', err);
@@ -32,6 +36,7 @@ function startPhantomWebdriver(options) {
 };
 
 module.exports = startPhantomWebdriver;
+module.exports.startServerAndPing = startServerAndPing;
 
 if (!module.parent)
   startPhantomWebdriver().on("listening", function() {
