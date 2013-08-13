@@ -79,4 +79,12 @@ describe("startServerAndPing()", function() {
       done();
     });
   });
+
+  it("should kill process on parent disconnect", function(done) {
+    start(example('timeout-server.js')).on('exit', function(code) {
+      code.should.eql(0);
+      logfile().should.match(/parent process disconnected/);
+      done();
+    }).disconnect();
+  });
 });
