@@ -47,12 +47,24 @@ describe("startServerAndPing()", function() {
     });
   });
 
-  it("should raise error when cmdline is invalid", function(done) {
+  it("should raise error when cmdline arg is invalid", function(done) {
     start(example('nonexistent.js', {
       silent: true
     })).on('error', function(err) {
       err.code.should.be.above(0);
       logfile().should.match(/Cannot find module/);
+      done();
+    });
+  });
+
+  it("should raise error when executable is invalid", function(done) {
+    start({
+      silent: true,
+      url: 'http://localhost',
+      cmdline: ['lolololol']
+    }).on('error', function(err) {
+      err.code.should.be.above(0);
+      logfile().should.match(/ 'lolololol' binary not found/);
       done();
     });
   });
