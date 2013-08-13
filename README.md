@@ -56,6 +56,12 @@ server is automatically killed.
 When the calling process exits, the PhantomJS server is also terminated
 if necessary.
 
+## Limitations
+
+The only intended use for this library is within test suites. Don't
+use it for long-running server processes, as all stdout/stderr from
+the server is buffered in memory!
+
 ## License
 
 [BSD][].
