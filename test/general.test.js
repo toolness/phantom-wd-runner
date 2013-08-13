@@ -1,8 +1,18 @@
+var fs = require('fs');
 var should = require('should');
 
 var start = require('../').startServerAndPing;
 
 var TEST_PORT = 5324;
+var LOGFILE = __dirname + '/err.log';
+
+process.env['NODE_SERVER_RUNNER_ERROR_LOGFILE'] = LOGFILE;
+
+function logfile() {
+  if (!fs.existsSync(LOGFILE))
+    return "";
+  return fs.readFileSync(LOGFILE, "utf-8");
+}
 
 function example(filename, extra) {
   extra = extra || {};
@@ -22,6 +32,11 @@ function example(filename, extra) {
 }
 
 describe("startServerAndPing()", function() {
+  beforeEach(function() {
+    if (fs.existsSync(LOGFILE))
+      fs.unlinkSync(LOGFILE);
+  });
+
   it("should work", function(done) {
     start(example('simple-server.js')).on('listening', function() {
       this.on('exit', function(code) {
@@ -37,6 +52,7 @@ describe("startServerAndPing()", function() {
       silent: true
     })).on('error', function(err) {
       err.code.should.be.above(0);
+      logfile().should.match(/Cannot find module/);
       done();
     });
   });
