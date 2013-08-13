@@ -37,7 +37,7 @@ describe("startServerAndPing()", function() {
       fs.unlinkSync(LOGFILE);
   });
 
-  it("should work", function(done) {
+  it("should emit listening event", function(done) {
     start(example('simple-server.js')).on('listening', function() {
       this.on('exit', function(code) {
         code.should.eql(0);
