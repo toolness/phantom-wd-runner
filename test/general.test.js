@@ -4,9 +4,9 @@ var should = require('should');
 var start = require('../').startServerAndPing;
 
 var TEST_PORT = 5324;
-var LOGFILE = __dirname + '/err.log';
+var LOGFILE = __dirname + '/debug.log';
 
-process.env['NODE_SERVER_RUNNER_ERROR_LOGFILE'] = LOGFILE;
+process.env['NODE_SERVER_RUNNER_DEBUG_LOGFILE'] = LOGFILE;
 
 function logfile() {
   if (!fs.existsSync(LOGFILE))
