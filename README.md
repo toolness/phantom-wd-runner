@@ -37,6 +37,8 @@ This function returns a [child process][] instance.
 All child process events are emitted, along with the following:
 
 * `listening` - Triggered when the PhantomJS WebDriver server is ready.
+* `error` - Like the child process event, but also emitted if the
+  PhantomJS WebDriver server terminates with a nonzero exit code.
 
 #### Error Handling
 
