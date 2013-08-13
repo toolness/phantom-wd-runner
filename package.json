@@ -1,0 +1,15 @@
+{
+  "name": "phantom-wd-runner",
+  "version": "0.0.1",
+  "description": "Run PhantomJS's WebDriver server in a separate process.",
+  "main": "index.js",
+  "dependencies": {
+    "async": "~0.2.9"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Atul Varma",
+  "license": "BSD"
+}
