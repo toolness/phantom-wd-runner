@@ -1,9 +1,11 @@
 var fs = require('fs');
 var should = require('should');
 
+var ping = require('../lib/ping-until-ready').ping;
 var start = require('../').startServerAndPing;
 
 var TEST_PORT = 5324;
+var TEST_URL = 'http://localhost:' + TEST_PORT;
 var LOGFILE = __dirname + '/debug.log';
 
 process.env['NODE_SERVER_RUNNER_DEBUG_LOGFILE'] = LOGFILE;
@@ -17,10 +19,10 @@ function logfile() {
 function example(filename, extra) {
   extra = extra || {};
 
-  var port = TEST_PORT.toString();
   var options = {
-    cmdline: [process.execPath, __dirname + '/example/' + filename, port],
-    url: 'http://localhost:' + port,
+    cmdline: [process.execPath, __dirname + '/example/' + filename,
+              TEST_PORT.toString()],
+    url: TEST_URL,
     timeout: 15000
   };
 
@@ -32,6 +34,8 @@ function example(filename, extra) {
 }
 
 describe("startServerAndPing()", function() {
+  this.timeout(5000);
+
   beforeEach(function() {
     if (fs.existsSync(LOGFILE))
       fs.unlinkSync(LOGFILE);
@@ -39,12 +43,22 @@ describe("startServerAndPing()", function() {
 
   it("should emit listening event and exit on SIGTERM", function(done) {
     start(example('simple-server.js')).on('listening', function() {
+      var server = this;
+
       this.on('exit', function(code) {
-        code.should.eql(0);
-        logfile().should.match(/SIGTERM received/);
-        done();
+        if (process.platform != 'win32') {
+          code.should.eql(0);
+          logfile().should.match(/SIGTERM received/);
+        }
+        ping(TEST_URL, function(err, success) {
+          success.should.equal(false);
+          done();
+        });
       });
-      this.kill();
+      ping(TEST_URL, function(err, success) {
+        success.should.equal(true);
+        server.kill();
+      });
     });
   });
 
@@ -75,7 +89,7 @@ describe("startServerAndPing()", function() {
       timeout: 300
     })).on('error', function(err) {
       err.message.should.eql('timeout (300ms) exceeded when pinging ' +
-                             'http://localhost:' + TEST_PORT);
+                             TEST_URL);
       done();
     });
   });
