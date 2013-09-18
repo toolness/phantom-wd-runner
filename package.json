@@ -13,6 +13,19 @@
   "scripts": {
     "test": "node node_modules/mocha/bin/mocha -R spec"
   },
-  "author": "Atul Varma",
+  "keywords": [
+    "phantom",
+    "phantomjs",
+    "webdriver"
+  ],
+  "author": {
+    "name": "Atul Varma",
+    "email": "varmaa@gmail.com",
+    "url": "http://toolness.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/toolness/phantom-wd-runner.git"
+  },
   "license": "BSD"
 }
