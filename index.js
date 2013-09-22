@@ -23,6 +23,12 @@ function startServerAndPing(options) {
     runner.emit('listening');
   });
 
+  if (process.platform == 'win32')
+    // For some bizarre reason, kill() on a forked child process doesn't
+    // appear to do anything on Windows, so we'll just alias kill to
+    // disconnect.
+    runner.kill = runner.disconnect;
+
   return runner;
 }
 
