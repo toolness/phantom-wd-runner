@@ -1,6 +1,6 @@
 {
   "name": "phantom-wd-runner",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Run PhantomJS's WebDriver server in a separate process.",
   "main": "index.js",
   "dependencies": {
