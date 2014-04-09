@@ -40,7 +40,7 @@ function startPhantomWebdriver(options) {
   return startServerAndPing({
     timeout: options.timeout || 15000,
     url: 'http://localhost:' + port + '/status',
-    cmdline: [options.execPath || 'phantomjs', '--webdriver=' + port]
+    cmdline: [options.execPath || 'phantomjs', '--webdriver=' + port].concat(options.extraArgs || [])
   });
 };
 
